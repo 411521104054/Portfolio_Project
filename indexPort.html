@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Kavitha — Cyber Tech Portfolio</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    :root{
+      --bg:#05060a;
+      --card:#0b0f15;
+      --muted:#9aa7b2;
+      --neon: #00e5ff; /* cyan accent */
+      --neon-2:#0077ff;
+      --glass: rgba(255,255,255,0.03);
+      --radius: 14px;
+    }
+
+    html,body{
+      height:100%;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,117,255,0.06), transparent),
+                  radial-gradient(900px 400px at 90% 90%, rgba(0,229,255,0.03), transparent),
+                  var(--bg);
+      color: #cfeefc;
+      font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      scroll-behavior: smooth;
+    }
+
+    /* NAV */
+    .navbar{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .navbar .navbar-brand{ font-weight:700; color:var(--neon-2); letter-spacing:0.4px; }
+    .nav-link{ color:var(--muted) !important; transition: color .18s ease; }
+    .nav-link:hover{ color:var(--neon) !important; text-shadow:0 0 8px rgba(0,229,255,0.12); }
+
+    /* HERO */
+    .hero{
+      min-height: 84vh;
+      display:flex;
+      align-items:center;
+      position:relative;
+      border-bottom: 1px solid rgba(255,255,255,0.02);
+    }
+    .hero .eyebrow{ color:var(--neon); font-weight:600; letter-spacing:1px; }
+    .hero h1{ font-size: clamp(34px,6vw,56px); font-weight:800; margin:10px 0; color: #eafcff; text-shadow: 0 6px 40px rgba(0,117,255,0.08); }
+    .hero p.lead{ color:var(--muted); font-size:18px; max-width:700px; }
+
+    /* GLASS CARD */
+    .glass {
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.012));
+      border: 1px solid rgba(0,229,255,0.06);
+      border-radius: var(--radius);
+      padding:1.2rem;
+      box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+    }
+
+    /* SECTIONS */
+    .section-title{ color:#e9fbff; font-weight:700; margin-bottom:18px; }
+    .muted { color:var(--muted); }
+
+    /* SKILLS GRID */
+    .skill-pill{
+  background: linear-gradient(135deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(0,229,255,0.08);
+  padding: 14px;
+  border-radius: 12px;
+  font-weight:600;
+  color:#cfeefc;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.skill-pill:hover{
+  transform: translateY(-6px) scale(1.05);
+  box-shadow: 0 0 25px rgba(0,229,255,0.35);
+  border-color: rgba(0,229,255,0.6);
+  color:#00e5ff;
+}
+
+    /* PROJECT CARDS - cyber style */
+    .project-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid rgba(0,229,255,0.05);
+      transition: transform .32s cubic-bezier(.2,.9,.2,1), box-shadow .32s ease, border-color .32s ease;
+      transform-origin:center;
+    }
+    .project-card:hover{
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 18px 60px rgba(0,117,255,0.12), 0 0 30px rgba(0,229,255,0.06);
+      border-color: rgba(0,229,255,0.24);
+    }
+    .project-card .thumb{
+      height:180px;
+      object-fit:cover;
+      display:block;
+      width:100%;
+      filter: contrast(1.05) saturate(1.05);
+      transition: transform .45s ease, filter .45s ease;
+    }
+    .project-card:hover .thumb{
+      transform: scale(1.07);
+      filter: contrast(1.2) saturate(1.1) brightness(1.03);
+    }
+    .project-meta {
+      padding: 16px;
+    }
+    .tag {
+      display:inline-block;
+      padding:6px 10px;
+      border-radius:999px;
+      font-size:12px;
+      background: linear-gradient(90deg, rgba(0,229,255,0.08), rgba(0,117,255,0.04));
+      border: 1px solid rgba(0,229,255,0.06);
+      color:var(--neon);
+      margin-right:8px;
+      font-weight:600;
+    }
+
+    /* neon highlight on hover for container */
+    .projects-row{ position:relative; padding-top:8px; }
+    .projects-row::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      background: radial-gradient(300px 80px at 10% 10%, rgba(0,229,255,0.02), transparent),
+                  radial-gradient(220px 60px at 90% 80%, rgba(0,117,255,0.02), transparent);
+      opacity:1;
+      mix-blend-mode: screen;
+    }
+
+    /* CONTACT */
+    .form-control{
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.03);
+      color: #dff7ff;
+    }
+    .form-control:focus{
+      outline: none;
+      box-shadow: 0 6px 30px rgba(0,117,255,0.06);
+      border-color: var(--neon);
+    }
+
+    /* FOOTER */
+    footer{ border-top: 1px solid rgba(255,255,255,0.02); color:var(--muted); padding:22px 0; }
+
+    /* responsiveness tweaks */
+    @media (max-width:767px){
+      .hero { min-height:60vh; padding-top:40px; }
+      .hero h1{ font-size:30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar navbar-expand-lg navbar-dark py-3 fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Kavitha S | Full Stack Developer</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
+          <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <!-- HERO / FRONT PAGE -->
+<header id="home" class="hero d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+
+        <h1 style="font-size:52px;font-weight:800;color:#eafcff;">
+          Hi, I'm <span style="color:#00e5ff;">Kavitha S</span>
+        </h1>
+
+        <h4 style="color:#9aa7b2;margin-top:10px;">
+          Computer Science Engineering Graduate (2025)
+        </h4>
+
+        <p class="mt-3" style="max-width:700px;color:#9aa7b2;font-size:17px;">
+          I am a passionate Web and Backend Developer with experience in 
+          Java, Spring Boot, and MySQL. I enjoy building clean, 
+          responsive applications and solving real-world problems using technology.
+        </p>
+
+        <!-- SOCIAL ICONS -->
+        <div class="mt-4 d-flex gap-4 fs-4">
+
+          <a href="mailto:sivakumarkavitha2003@gmail.com" title="Email"
+             style="color:#00e5ff;">
+            <i class="fas fa-envelope"></i>
+          </a>
+
+          <a href="tel:6382783961" title="Phone"
+             style="color:#00e5ff;">
+            <i class="fas fa-phone"></i>
+          </a>
+
+          <a href="https://github.com/411521104054" target="_blank" title="GitHub"
+             style="color:#00e5ff;">
+            <i class="fab fa-github"></i>
+          </a>
+
+          <a href="https://linkedin.com/in/kavitha-sivakumar-623348226"
+             target="_blank" title="LinkedIn"
+             style="color:#00e5ff;">
+            <i class="fab fa-linkedin"></i>
+          </a>
+
+        </div>
+
+        <!-- BUTTONS -->
+        <div class="mt-4">
+
+  <a href="#projects"
+     class="btn btn-primary btn-lg me-3"
+     style="background:linear-gradient(90deg,#00e5ff,#0077ff);border:none;">
+    View Projects
+  </a>
+
+  <a href="#contact"
+     class="btn btn-outline-info btn-lg me-3">
+    Contact Me
+  </a>
+
+  <!-- RESUME BUTTON -->
+  <a href="assets/Kavitha_Resume.pdf"
+   target="_blank"
+   class="btn btn-lg ms-2"
+   style="
+     background:linear-gradient(90deg,#00e5ff,#0077ff);
+     color:#fff;
+     border:none;">
+  <i class="fas fa-file-pdf me-2"></i>Resume
+</a>
+
+</div>
+
+
+      </div>
+    </div>
+  </div>
+</header>
+
+
+  <!-- ABOUT -->
+  <section id="about" class="py-5">
+    <div class="container">
+      <h3 class="section-title">About Me</h3>
+      <div class="row align-items-center">
+        <div class="col-md-4 text-center mb-3">
+          <div class="glass" style="padding:12px;">
+            <img src="https://via.placeholder.com/220" class="rounded-circle img-fluid" alt="profile">
+          </div>
+        </div>
+
+        <div class="col-md-8">
+          <p class="muted">
+            I'm a 2025 Computer Science graduate from Peri Institute of Technology. I completed projects using PHP + MySQL
+            for my major project, built REST APIs with Spring Boot, and developed front-end UI using Bootstrap and JavaScript.
+            I enjoy solving problems, learning new tools and building production-ready web apps.
+          </p>
+
+          <div class="mt-3 d-flex flex-wrap gap-2">
+            <span class="tag">HTML</span>
+            <span class="tag">CSS</span>
+            <span class="tag">Bootstrap</span>
+            <span class="tag">PHP</span>
+            <span class="tag">Java</span>
+            <span class="tag">MySQL</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" class="py-4 bg-dark">
+    <div class="container">
+      <h3 class="section-title">Skills</h3>
+
+      <div class="row g-3">
+        <div class="col-sm-6 col-md-3">
+          <div class="skill-pill">Java</div>
+        </div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">JavaScript</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">PHP</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">SQL / MySQL</div></div>
+
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">HTML & CSS</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">Bootstrap</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">Spring Boot</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">REST APIs</div></div>
+
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">Hibernate</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">GitHub</div></div>
+        <div class="col-sm-6 col-md-3"><div class="skill-pill">Applets</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" class="py-5">
+    <div class="container">
+      <h3 class="section-title">Projects</h3>
+
+      <div class="row g-4 projects-row">
+        <!-- Project A -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img class="thumb"
+src="https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=1200&auto=format&fit=crop"
+alt="Teacher Subject Allocation System">
+
+            <div class="project-meta">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 style="margin:0">Teacher Subject Allocation Management System</h5>
+                <div style="font-size:13px; color:var(--muted)">2025</div>
+              </div>
+              <p class="muted" style="margin-top:8px; margin-bottom:12px;">
+                PHP + MySQL based web system to automate teacher–subject allocation using department rules and workload balancing.
+                Streamlines timetable planning and reduces manual errors.
+              </p>
+              <div>
+                <span class="tag">PHP</span>
+                <span class="tag">MySQL</span>
+                <span class="tag">Bootstrap</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project B -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+           <img class="thumb"
+src="https://images.unsplash.com/photo-1555949963-aa79dcee981c?q=80&w=1200&auto=format&fit=crop"
+alt="Employee Management System">
+
+
+            <div class="project-meta">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 style="margin:0">Employee Management System</h5>
+                <div style="font-size:13px; color:var(--muted)">2025</div>
+              </div>
+              <p class="muted" style="margin-top:8px; margin-bottom:12px;">
+                RESTful APIs built with Spring Boot and Hibernate. CRUD operations integrated with PostgreSQL and tested via Postman.
+              </p>
+              <div>
+                <span class="tag">Spring Boot</span>
+                <span class="tag">PostgreSQL</span>
+                <span class="tag">REST API</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project C -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card">
+            <img class="thumb"
+src="https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=1200&auto=format&fit=crop"
+alt="Java Game Project">
+            <div class="project-meta">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 style="margin:0">Tic Tac Toe Game</h5>
+                <div style="font-size:13px; color:var(--muted)">2025</div>
+              </div>
+              <p class="muted" style="margin-top:8px; margin-bottom:12px;">
+                Java console game with 2-player & AI logic. Implemented using OOP and robust game validations.
+              </p>
+              <div>
+                <span class="tag">Java</span>
+                <span class="tag">OOP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project D -->
+        <div class="col-md-6 col-lg-4">
+          <div class="project-card mt-2">
+            <img class="thumb"
+src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop"
+alt="Online Assessment Platform">
+
+            <div class="project-meta">
+              <div class="d-flex justify-content-between align-items-start">
+                <h5 style="margin:0">CareerFit Assessment Platform</h5>
+                <div style="font-size:13px; color:var(--muted)">2024</div>
+              </div>
+              <p class="muted" style="margin-top:8px; margin-bottom:12px;">
+                3-module assessment platform (Admin, Instructor, Candidate) built with HTML, CSS and JavaScript.
+              </p>
+              <div>
+                <span class="tag">HTML</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Bootstrap</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="certificates" class="py-5 bg-dark">
+    <div class="container">
+      <h3 class="section-title">Certificates</h3>
+      <ul class="list-group list-group-flush glass" style="border-radius:10px; padding:12px;">
+        <li class="list-group-item bg-transparent" style="border:none; color:var(--neon);">Basic Java Programming Certificate</li>
+        <li class="list-group-item bg-transparent" style="border:none; color:var(--neon);">Core Java Development Internship — 2023</li>
+        <li class="list-group-item bg-transparent" style="border:none; color:var(--neon);">Web Development Internship — 2024</li>
+        <li class="list-group-item bg-transparent" style="border:none; color:var(--neon);">AI & Machine Learning Workshop</li>
+        <li class="list-group-item bg-transparent" style="border:none; color:var(--neon);">Cybersecurity Workshop</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="py-5">
+    <div class="container">
+      <h3 class="section-title">Contact</h3>
+      <div class="row justify-content-center">
+        <div class="col-md-7">
+          <div class="glass">
+            <form>
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input class="form-control" type="text" placeholder="Your name">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input class="form-control" type="email" placeholder="you@example.com">
+              </div>
+
+              <div class="mb-3">
+                <label class="form-label">Message</label>
+                <textarea class="form-control" rows="5" placeholder="Write your message"></textarea>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn" style="background: linear-gradient(90deg,var(--neon),var(--neon-2)); color:#04121b; font-weight:700;">Send Message</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="text-center mt-3 muted">
+            <small>Or reach out via <a href="mailto:sivakumarkavitha2003@gmail.com" style="color:var(--neon);">sivakumarkavitha2003@gmail.com</a></small>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="text-center">
+    <div class="container">
+      <small>© 2025 Kavitha • Built with Bootstrap • Theme: Cyber Tech (Blue–Cyan)</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Optional: small JS for extra hover label effect -->
+  <script>
+    // Add a tiny interactive hover glow that follows mouse on project cards (non-critical)
+    document.querySelectorAll('.project-card').forEach(card=>{
+      card.addEventListener('mousemove', e=>{
+        const rect=card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mx', x + 'px');
+        card.style.setProperty('--my', y + 'px');
+      });
+    });
+  </script>
+
+</body>
+</html>
